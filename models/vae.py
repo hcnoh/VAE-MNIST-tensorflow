@@ -1,7 +1,5 @@
 import tensorflow as tf
 
-from functions.functions import tf_batch_matmul
-
 
 def encoder(x, k, name, units_list=[256, 256, 128]):
     with tf.variable_scope(name, reuse=tf.AUTO_REUSE):
