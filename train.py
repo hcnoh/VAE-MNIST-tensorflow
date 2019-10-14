@@ -13,8 +13,8 @@ LATENT_DEPTH = 20
 BATCH_SIZE = 32
 NUM_EPOCHS = 100
 
-MODEL_SAVEL_DIR = "../../learned-models/variational-autoencoder-mnist"
-MODEL_NAME = "variational-autoencoder"
+MODEL_SAVEL_DIR = "../../learned-models/VAE-MNIST"
+MODEL_NAME = "VAE-MNIST"
 
 
 def main():
@@ -71,14 +71,6 @@ def main():
         features_i = features[idxes]
         eps_i = np.random.normal(size=[BATCH_SIZE, LATENT_DEPTH])
 
-        # if i % 1 == 0:
-        #     loss_g_i, _ = sess.run(
-        #         [loss_g, opt_g], feed_dict={x: features_i, z: z_i}
-        #     )
-        # if i % 2 == 0:
-        #     loss_d_i, _ = sess.run(
-        #         [loss_d, opt_d], feed_dict={x: features_i, z: z_i}
-        #     )
         encoder_loss_i, decoder_loss_i, loss_i, _ = sess.run(
             [encoder_loss, decoder_loss, loss, opt], feed_dict={x: features_i, eps: eps_i}
         )
@@ -87,8 +79,7 @@ def main():
         decoder_losses.append(decoder_loss_i)
         losses.append(loss_i)
 
-        # if i % steps_per_epoch == 0:
-        if i % 100 == 0:
+        if i % steps_per_epoch == 0:
             temp_idx = 0
             f_eps = sess.run(
                 vae.f_eps[temp_idx], feed_dict={eps: eps_i}
@@ -110,7 +101,7 @@ def main():
 
             fs.append(f_eps)
 
-            # saver.save(sess, model_ckpt_path, global_step=i)
+            saver.save(sess, model_ckpt_path, global_step=epoch)
 
             with open(model_rslt_path, "wb") as f:
                 pickle.dump(
