@@ -62,10 +62,11 @@ class VAE(object):
     
     def get_encoder_loss(self):
         loss = \
-            (1/2) * (tf.reduce_sum(self.sigma, axis=-1, keepdims=True) + \
+            (1/2) * (
+                tf.reduce_sum(self.sigma, axis=-1, keepdims=True) + \
                 tf.reduce_sum(self.mu * self.mu, axis=-1, keepdims=True) - \
-                    self.k - \
-                        tf.reduce_sum(self.log_sigma, axis=-1, keepdims=True)
+                self.k - \
+                tf.reduce_sum(self.log_sigma, axis=-1, keepdims=True)
             )
         
         return loss
